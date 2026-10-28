@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.22)
+project(CHMFaceCam VERSION 0.1.0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+include(FetchContent)
+FetchContent_Declare(JUCE GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 8.0.10 GIT_SHALLOW TRUE)
+FetchContent_MakeAvailable(JUCE)
+juce_add_plugin(CHMFaceCam COMPANY_NAME "CHM Studio" BUNDLE_ID "mg.chmstudio.facecam" PLUGIN_MANUFACTURER_CODE Chmr PLUGIN_CODE Cfcm FORMATS VST3 PRODUCT_NAME "CHM Face Cam" IS_SYNTH FALSE NEEDS_MIDI_INPUT FALSE NEEDS_MIDI_OUTPUT FALSE IS_MIDI_EFFECT FALSE EDITOR_WANTS_KEYBOARD_FOCUS TRUE COPY_PLUGIN_AFTER_BUILD FALSE)
+target_sources(CHMFaceCam PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp)
+target_compile_definitions(CHMFaceCam PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
+target_link_libraries(CHMFaceCam PRIVATE juce::juce_audio_utils juce::juce_video juce::juce_dsp juce::juce_recommended_config_flags juce::juce_recommended_warning_flags)
+
+target_compile_definitions(CHMFaceCam PRIVATE JUCE_CAMERA=1)
